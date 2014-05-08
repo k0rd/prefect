@@ -1,0 +1,1025 @@
+  ---------------------------------------------
+    CRM32Pro SDK - Roberto Prieto
+    Copyright (C) 2001-2011 MegaStorm Systems
+  ---------------------------------------------
+
+
+    11 August 2011 - 5.10 - Library update
+    ------------------------------------
+     . CRM32Pro SDK is now available under LGPL license
+     . Source code finally available for downloading from the web
+     . Integrated Console and Debug Window
+     . CRM32Pro main interface:
+       - Several new methods added to manage the new Console and Debug Window (method prefixes Con and Dw)
+       - New methods IsRenderNeeded() and RenderNeeded().
+     . IButton:
+       - MAX_LAYERBUTTON increased to 8
+       - Changed the internals to use the new CRM32Pro.IsRenderNeeded() method.
+       - ForceDraw() is deprecated and does nothing, it is just present for backward compatibility
+       - Update() and Draw() have been recoded. 
+       - Fixed an issue with associated function to button and execute just once the action event
+     . CFont:
+       - Added new member to get the height of the font: StringHeight()
+       - Added new member to set/get the cursor char
+       - Fixed a wrong string width with font kerning values different to 0
+     . ITimeSystem:
+       - Fixed some conceptual bugs
+       - Fixed an issue when calling Init(TIME_RESET)
+       - New method GetTimeNow()
+     . IImage:
+       - Added new member to load a PNG from a memory block: LoadPNG()
+     . ICursor:
+       - Fixed an issue when trying to use/delete a cursor with a wrong id
+       - Fixed wrong autorestores due to colorkey incorrently set.
+       - Show() and Hide() members call internally to CRM32Pro.RenderNeeded()
+     . IScreenFX:
+       - Resize(), Flip(), Mirror(), Rotate() and RotateResize() methods perform the same operation on OpenGL and non-OpenGL modes
+     . INetwork:
+        - Improve detection of hacking attemps removing a rare case that caused a false-positive.
+     . General docs improvements
+     . New example to show the use of the Integrated Console and Debug Window
+     . Win32 version uses Visual Studio 2008
+     . Added new CPUID for Intel Arrandale, Sandy Bridge and Westmere
+     . Documentation generated using new Doxygen v1.7.4.     
+     . Using new library versions:
+       - libpng 1.2.44 version
+       - libvorbis 1.3.2
+       - libogg 1.2.2
+       - tinyXML 2.6.2
+       - zlib 1.2.5
+
+
+    17 September 2010 - 5.01 - Minor fixes
+    --------------------------------------
+     . INetwork:
+       - Fixed a bug on GetClientsInfo() when running on the server.
+       - Increased DN reception queue from 32 to 256 slots.
+     . CRM32Pro main interface:
+       - CRM32Pro.SetVideoMode() does not change the window title text if Config.Title is NULL.
+     . IStuffDPF:
+       - Fixed a bug that caused problems when trying to upgrade DPF from v3.0 to v4.0.
+     . IButton:
+       - Added two new members: GetLayer() and GetVisibilityLayer().
+       - Fixed a bug on slider buttons: wrong position and wrong working way.
+       - Fixed an important bug in Remove() and RemoveAll() members.
+     . Improve some member documentation.
+     . Documentation generated using new Doxygen v1.7.1.
+     
+    30 November 2009 - 5.00 - Major update
+    --------------------------------------
+     . CSprite supports OpenGL renderer.
+       - Fixed a problem using special effects on cloned sprites. Thanks E.Iglesias for reporting it.
+     . IVideo:
+       - Supports OpenGL renderer.   
+       - SetFunction(int) changed to SetFunction(int,SDL_Surface *,SDL_Rect *).
+     . IScreenFX supports OpenGL renderer.
+     . IImage supports OpenGL renderer.
+       - Fixed a problem when saving the image, now it saves the colorkey and the alpha value
+     . ICursor supports OpenGL renderer.
+     . CTile supports OpenGL renderer.
+     . IButton supports OpenGL renderer.
+     . CFont supports OpenGL renderer.
+     . OpenGL implementation notes:
+       - Using a modified version of glSDL, so please, have a look to http://icps.u-strasbg.fr/~marchesin/sdl/glsdl.html.
+       - When a surface is loaded, it is immediately converted to a texture instead of waiting for the first blit.
+       - All autorestore features are disabled due to the nature of glSDL, it´s faster to blit everything on each frame update.
+       - Due to the nature of glSDL, blitting to screen is very fast but surface to surface blits cause slowdowns (internal conversions).       
+     . CRM32Pro main interface:
+       - Modified to support OpenGL renderer.
+       - Fixed a problem detecting Core 2 CPUs.
+       - Detect and select the right optimization for Atom,Phenom and Core i7 CPUs.
+       - Removed DGA video backend for MacOS X and Linux
+       - DirectX and FBCon video backend are deprecated. They are old and could not work on a modern OS/machine.
+     . Ported to MacOS X for x86 processors.
+     . Using updated Doxygen v1.6.1 to generate the documentation.
+     . Using new library versions:
+       - libpng 1.2.40 version
+       - libSDL 1.2.14
+       - SDL_mixer 1.2.11
+       - libvorbis 1.2.3
+       - libogg 1.1.4
+       - mikmod 3.1.12
+     . Improve "how to install.." documentation.
+               
+    18 July 2008 - 4.99d - Minor fix
+    --------------------------------
+     . IVideo: possibility to stop the mpeg playback using custom keys.   
+     . Using new library versions:
+       - TinyXML 2.5.3
+       - libvorbis 1.2.0
+       - libpng 1.2.29
+       - SDL_net 1.2.7
+
+    27 March 2008 - 4.99c - Minor fixes
+    ------------------------------------
+     . IStuffDPF:
+       - Allow to open DPF files in read only mode.
+     . CRM32Pro main interface:  
+       - Config.VideoWindow now supports SDL_NOFRAME. 
+     
+    19 November 2007 - 4.99b - Minor fixes
+    --------------------------------------
+     . CRM32Pro main interface:  
+       - SDL had a problem detecting right mouse clicks, we have overridden that issue using
+         our custom defines: CRM32PRO_BUTTON_LEFT, CRM32PRO_BUTTON_MIDDLE and CRM32PRO_BUTTON_RIGHT
+     . IButton: 
+       - Added new SetMouseButtons() and GetMouseButtons() members to set and get the
+         desired relationship between mouse buttons and a button. By default and backwards compatibility,
+         it always is set to CRM32PRO_BUTTON_LEFT.
+       - Buttons work with any mouse buttons(left,middle and right).       
+    
+    18 October 2007 - 4.99 - Major update
+    ------------------------------------
+     . CRM32Pro main interface:       
+       - Implementation of LoadConfig() and SaveConfig(). They now work!.
+       - Full working link between LoadConfig()/SaveConfig() and the SetupProject.
+       - Improved blitting optimization across all supported CPUs.
+     . ILogSystem:
+       - Added new Halt() and Resume() members to stop and resume the log output. 
+       - New mode to append the log output to the same log file.
+     . ICursor: 
+       - Fixed a problem creating a cursor from a 8bits surface.
+     . INetwork:
+       - Fixed some memory leaks on client and server code.
+       - Improved stability with client-server disconnections.
+       - Updated network examples.
+     . IButton:
+       - Raised MAX_LAYERBUTTON from 3 to 5.
+       - Fixed a problem with layer visibility. Now they works fine.
+       - Fixed a problem with ID buttons on layer 2 and upper.
+       - Better output of Info() member.
+       - Improved master buttons and cloned buttons functionality.
+       - Added new SetKey() and GetKey() members.
+       - Added new SetColorSelect() and GetColorSelect() members.
+       - Added new RemoveMaster() member.
+       - Inputbox type button now works better avoiding key repetition and delays.
+       - GetCurrentValue() has been renamed to GetValue().
+       - SetCurrentValue() has been renamed to SetValue().
+       - Function assigned to a button now supports two argument of any data type.
+       - Fixed a problem in Save() to DPF when the button was in video memory.
+     . IVideo:
+       - Fixed a critical bug on MPEG playback on multicores CPUs. 
+         The problem was found and solved on SMPEG sources.   
+     . IScreenFX:
+       - Improved Resize(): faster, support all color depth and optional render to a destination surface.
+       - Added new Flip() member to flip a surface.
+       - Added new Mirror() member to mirror a surface.
+       - Added new Rotate() and RotateScale() members to rotate a surface.
+       - All above members support surface clipping and the destination surface bounds.
+       - Note that all above features work in software mode. In hardware mode they are quite slow.
+     . IPrimitives:
+       - PutPixel() has been renamed and duplicated to PutPixelColor() and PutPixelRGBA().
+       - HLine() has been renamed and duplicated to HLineColor() and HLineRGBA().
+       - VLine() has been renamed and duplicated to VLineColor() and VLineRGBA().
+       - Rect() has been renamed and duplicated to RectangleColor() and RectangleRGBA().
+       - Added new LineRGBA() and LineColor() members.
+       - Added new BoxColor() and BoxRGBA() members.
+       - Added new RGBtoYUV() and YUVtoRGB() members.
+       - Added new RGBtoCYMK and CYMKtoRGB() members.
+     . CSprites:
+       - Added new SetEffect() member to activate special effects.
+       - New special effects: mirror, flip, rotate and resize.
+       - Fix a problem with colorkey in 8bits and 16bits surfaces.
+       - Full support for 8bits sprites surfaces.  
+       - Fixed a problem in Save() to DPF when the sprite was in video memory.
+     . IImage:
+       - Added new LoadIMG() member to load a BMP or PNG.
+       - Fix a problem in SavePNG() trying to save RLE surfaces.
+     . CTiles:
+       - Full support for 8bits tiles surfaces.  
+       - Fixed a problem in Save() to DPF when the tile was in video memory. 
+     . Improved internal use of SDL_DisplayFormat(): it only performs the conversion when it is needed.
+     . Modified project files to support VS2005 and ready to add MacOS x86 project files.
+     . Improved documentation.
+     . Fixed a couple of mispelling words on sprites documentation. Thanks Melkor for reporting it!.      
+    
+    26 July 2007 - 4.98 - Major Update
+    ---------------------------------- 
+     . CRM32Pro main interface:       
+       - Added new MakeDirectory() member to create directories on all supported platforms.
+       - Added three new XML members: XMLCommentGet(), XMLCommentSet() and XMLCommentRemove().
+       - Fixed a few bugs in XML code on XMLTextGet(), XMLTextSet(), XMLTextRemove() and XMLAttributeGet().
+       - Added new GetKeystate() member replacing keystate variable. Thanks Kolham for reporting it!.
+     . CSprite: 
+       - Some minor fixes.
+       - Added new Clean() member to clean and reset the content of current tile.
+       - Fixed a random problem saving tiles with RLE surfaces.
+       - Fixed a problem with SelectFrame(), now it works fine. Thanks Warchief for reporting it!.     
+       - Added new SetCollisionMethod() and GetCollisionMethod() members to set/get the kind of 
+         accuracy Vs.speed of collision detection system for the given sprite.     
+     . CTile:
+       - GetOffset() now return the right size of the tile if there is not a tileset.
+       - Added new Clean() member to clean and reset the content of current tile.
+       - Fixed a random problem saving tiles with RLE surfaces.
+     . CFont:       
+       - Added new Clean() member to clean and reset the content of current tile.
+       - Fixed a random problem saving tiles with RLE surfaces.     
+     . IPrimitives:
+       - Added new SetCollisionMethod() and GetCollisionMethod() members to set/get the kind of 
+         accuracy Vs.speed of the whole collision detection system.         
+     . IStuffDPF:
+       - Added new GetFilename() member to get the filename of a given idDPF.
+       - Improved precached algorithm to open DPF files: now it caches last 32 DPFs opened.
+       - It will close and display info of any DPF file that was not closed at CRM32Pro.Quit() time.
+       - Optimized saving algorithm to improve drastically the performance.        
+       - Added new Flush() member to force to save all changes to disk.
+     . Adjusted log level on all objects and interfaces:
+       - LOG_LOW: only print out error messages. Note that query information methods are using LOG_LOW.
+       - LOG_NORMAL: previous one plus warning messages(some info are also included).
+       - LOG_HIGH: previous one plus info messages.       
+     . All save to DPF methods,IStuffDPF->AddData() and IStuffDPF->AddFile() now return an integer:
+          -1 if resource already exists. 0 if failed. >0 Ok and packed size of the added resource.
+     . All save to and load from DPF methods have been duplicated: 
+       - Using a DPF filename: this is the old method and it will open, load or save and close the DPF
+       - Using an idDPF: this is the new method, it uses a opened DPF id and only load or save without close the DPF
+     . Improved documentation. 
+     . IImage: added three new members to handle PNGs: LoadPNG(), SavePNG() and isPNG().      
+     . Added support for load/save PNG in all affected interfaces.
+       We are using libpng 1.2.16 and zlib 1.2.3
+     . Every Save() member of interfaces and objects use MakeDirectory() to avoid errors trying to 
+       save to a non existant path, in this case, it will automatically create the path.
+     . Added optimized blitting routines for Core Duo and Core 2 Duo.
+     
+
+    27 December 2006 - 4.97 - Major Update
+    --------------------------------------
+     . CFont: 
+       - Added new SetName() member to set a new name for the font.
+       - Added new GetName() member to get the current name of the font.
+       - Added new SetKerning() member to set the kerning of the font.
+       - The format of stored fonts have changed. Load() member will automatically update it.
+     . IButton: 
+       - Added new SetName() member to set a new name for the button.
+       - Added new GetName() member to get the current name of the button.
+       - Added new GetAlpha() member to get alpha blending information for each button state.
+       - Added new GetColorKey() member to get current colorkey value for each button state.
+       - SetColorKey() and SetAlpha() now set its values for each button state.
+       - Fixed a problem with slider button. 
+       - Added support for drag and drop to slider button.
+       - Improved InputText button.
+     . CSprite: 
+       - Added new GetAnim() member to get the current sprite animation state.
+       - Added new GetFrame() member to get the current frame.
+       - Added new GetAlpha() member to get alpha blending information.
+       - Added new GetColorkey() member to get current colorkey value.
+       - Added new GetName() member to get the name of the sprite.
+       - Added new SetName() member to set a new name for the sprite.       
+       - Removed MoveTo() member and changed SetPosition() member, now it supports a third parameter.
+         indicating if you want a smooth movement or not.       
+       - Cleaned up all internal members.
+       - Fixed several bugs with cloned sprites.
+       - Now, it is safe to change the alpha and colorkey properties of cloned sprites. 
+         Thanks Saracchini for reporting it!.
+       - Added support for X,Y hotspots per each animation.
+       - Added support for a frame interval per each animation.
+       - Fixed a minor bug in pingpong animation (last frame was rendered twice). Thanks Harko for reporting it!.
+       - Fixed a bug using smooth movement when you did not call to SetPosition() each logic frame update. 
+         Thanks warwolf for reporting it!.       
+       - The format of stored sprites have changed. Load() member will automatically update it.              
+         During the update, if colorkey was set to 0, in the new version will set to -1.
+       - Improved sprite documentation.
+     . CTile:
+       - Added new GetAlpha() member to get alpha blending information.
+       - Added new SetName() member to set a new name for the tile.
+       - Added new GetColorKey() member to get current colorkey value.
+       - Member GetOffset() has changed to GetOffset(int *x,int *y).
+       - Independent X and Y offsets.
+       - The format of stored tiles have changed. Load() member will automatically update it.              
+         During the update, if colorkey was set to 0, in the new version will set to -1.
+     . ITimeSystem: added a new warning message when CRM32Pro.Update() is used without to initialize ITimeSystem.
+     . ICursor: added new SetPosition() member to set a new cursor position.
+     . INetwork:
+       - Fixed a bug in INetwork->CreateServer(). Thanks Warchief for reporting it!.
+       - Improved and safer way to close the network system. Thanks Warchief for reporting it!.
+       - Added new SetTimeOut() member to set the connection time out before to return with an error.
+     . IStuffDPF:
+       - Fixed a critical bug on IStuffDPF affecting only to Linux library version.
+       - Delete() method do not modify input parameter anymore.
+     . Main interface:
+       - Fixed a bug in CRM32Pro.Update() when ITimeSystem was not initialized.
+       - Fixed a couple of minor bugs in the XML parser.
+       - CRM32Pro.SetVideoMode() will log a warning message when the set video will be different to the requested one.
+       - Added new XMLCreate() member to create a new and empty XML document.      
+     . The semantics of colorkey on all classes and interfaces, has changed to:
+       - Before: the value of 0 disabled it. 
+       - Now: -1 to disable it, but 0 will keep it enabled!.
+     . Improved error handling across CSprite,ICursor,CFont,CTile and IButton.           
+     . Improved alpha blending documentation and functionality.
+     . Improved colorkey documentation and functionality.
+     . Removed two little memory leaks in CRM32Pro.
+     . Removed a few memory leaks in SDL.
+     . Updated to TinyXML 2.5.2 to fix some bugs on XML file parsing.
+
+    30 August 2006 - 4.95 - INetwork
+    --------------------------------
+     . INetwork:
+       - Major code revision to improve stability.
+       - Encapsulated all SDL_net functions to get a fully threads safe API.
+       - Internal code now is threads safe.
+       - Removed TCP limit packet size of 8192 bytes.
+       - Each client can easy access to information(name,IP,latency) of others client(including itself).
+       - Secure transmission layer to avoid any data modification, data replay or data tampering.
+       - Added Info() member to show a lot of useful information at any point of time.
+       - Added SetCoreServerCallback() member to hook a server callback to validate or deny the sent data.
+       - Added new GetClientsInfo() member to get information about all the connected clients
+       - Added new IsServer(),IsClient(),GetMyIP(),GetMyName() members to improve the functionality.	   
+       - Init():
+         + Avoid doubles initializations.
+       - Quit():
+         + Close all subsystem using a right way.
+       - ConnectTo():
+         + Fixed some memory leaks when the conection fails.
+         + While it is waiting for server connection confirmation, with ESCAPE key it halts the attempt.
+         + Improved error checking.  
+       - QueryListClients() has been renamed to QueryClientsInfo(). It is used to update the 
+         information(latency) about all the connected clients (including itself).           
+       - QueryKillClient(), QueryKillServer() and QueryListClients() now return a possible error.
+       - CreateServer():
+         + Fixed some memory leaks when the creation fails.       
+       - Fixed bugs:
+         + The client now detects internal socket failures and does a right exit procedure.
+         + The server now detects internal socket failures and does a right exit procedure.
+     . Note that due to deep changes on INetwork API, there is not binary compatibility with
+       previous versions so you have to compile and link your application using this new one.
+     . Extended and improved library documentation including some graphics schemes.
+     . Improved all examples.
+     . Added new example: NetChat2 using INetwork with authoritative server mode.   
+     . IStuffDPF: 
+       - By default, now Compact() does not use LowLevel access due to extremly slow method.
+       - Great speed improvement saving and loading encripted blocks (music,sound and text blocks for example).
+
+    9 July 2006 - v4.91 - Minor update
+    ----------------------------------
+    . ICursor:
+      - Added SetSmooth() member to allow to enable/disable the smooth cursor movement. By default, it is enabled.
+      - Fixed a little problem when in some cases, the first cursor autorestore didnt work fine.
+    . IStuffDPF: 
+      - Added a pre-cached system to speed up the openning performance.
+    . All the examples are using a simple animated sprite instead of a static one.
+    . New SDL 1.2.10 has defined new basic types:
+       For example, Uint32 was 'unsigned int' and now it is 'unsigned __int32'.
+       Due to this, It was not possible to use the v4.90 with Visual Studio 6.0 but we have fixed this
+       little issue and now, you can use again the old-good VC6.
+
+    25 June 2006 - 4.90 - Major Update
+    ----------------------------------
+    . CSprite:
+      - New unified internal system.
+      - Removed Update() member.
+      - Added SetAnimFactor() member to set the animation speed factor.
+      - Added MoveTo() member to move the sprite using a very smooth way.
+    . ITimeSystem: 
+      - Added Fixed Logic Rate concept. All main code have been rewritten to be very accurate.
+      - Smoothest operation with or without double buffer screen.
+      - It will drop render frames to fullfil with logic rate.
+      - You can set a logic rate lower than render rate.
+      - GetTime() and GetSeconds() work always even if you have not called to CRM32Pro.Update().
+    . IStuffDPF: 
+      - New DPF v4.0 format. It has been rewritten to be more secure and reliable.
+      - Automatic DPF protection to avoid external modification.
+      - Possibility of protect your DPF contents with heavy encryption scheme using a password from 8 to 56 characters.
+      - Two access method: fast mode to use in normal operation and lowlevel mode to fix a corrupted DPF.      
+      - Old DPF v3.0 are automatically converted to new v4.0.
+      - Due to its nature, opening DPFs is quite intensive (four times more than previous version) so keep
+        this in mind. If this issue is problematic, we will implement a pre-cached system to improve dramatically
+        the opening performance.
+    . CFont:
+      - Fixed a bug in the coordinates system. Thanks Ivo Wubbels for reporting it!
+      - Fixed a minor bug in the importing code. Thanks Ivo Wubbels for reporting it!
+      - Some members have been renamed:
+        + TextWidth(char *text) has been renamed to StringWidth(char *str).
+        + TextCursorAt(char *text,int px) has been renamed to SetCursorAt(char *str,int px).
+        + XCenteredString(SDL_Surface *Surface, int x,  char *text, SDL_Rect* clip=NULL) has been renamed to 
+          PutStringXCenter(SDL_Surface *Surface, int x,  char *str, SDL_Rect* clip=NULL);
+        + YCenteredString(SDL_Surface *Surface, int y,  char *text, SDL_Rect* clip=NULL) has been renamed to 
+          PutStringYCenter(SDL_Surface *Surface, int y,  char *str, SDL_Rect* clip=NULL);  
+    . ICursor:
+      - Fixed render problems with doublebuffer modes.
+      - Smooth cursor movement.
+      - Fixed some bugs with autorestores.
+    . CRM32Pro main interface:
+      - Added a callback function to blit your graphics fulfilling the Rendering Frame Rate.
+      - Added new bMTFriendly flag to Config struct to give the execution flow to OS each internal update.
+    . Library size on Win32(mingw32) and Linux was reduced.
+    . Added new example: LogicRenderRates.
+    . Extended and improved library documentation.
+    . Updated to SDL 1.2.10 CVS (dated on 21-May-2006) with loads of bugs fixed and improvements.
+    . Fixed an critical graphic performance issue. Thanks Tobias Schweers for reporting it!    
+      
+    14 March 2006 - 4.81 - Main & IScreenFX
+    ---------------------------------------
+    . IScreenFX:   
+      - FadeWhite() and FadeBlack() members have been removed as they were very slow.   
+      - FadeWhiteA(),FadeBlackA() and FadeImageA() have been replaced with 
+        FadeToColor() and FadeToImage().
+      - All fading functions have been rewritten and now support: rect or whole modification
+        and perfect timing.       
+    . CRM32Pro main interface:
+      - Force to 32bit color mode when you specify 24bits due to speed up and 
+        compatibility issues.
+      - Fixed minor bug trying to setup a new GFX backend on Linux.
+      - Added new FreeSurface() member to avoid doubles frees. 
+        Use it instead of SDL_FreeSurface().
+      - Auto surface recovery is automatically activated when the DirectX backend with 
+        any hardware mode is selected.
+    
+    28 February 2006 - 4.80 - Major Update
+    --------------------------------------
+    . CRM32Pro main interface:
+      - Added Update() member integrating all systems updates. 
+        See Reference Guide to further details.
+      - Added CleanUp() member to clean up the whole update system and 
+        to avoid event/timing propagation.
+      - Added SetVideoMode() member to setup the video mode. Use it instead SDL_SetVideoMode().
+      - Added Blit() member. Use it instead of SDL_BlitSurface().
+      - Fixed minor bug with XML code.
+    . ITimeSystem:
+      - Init() member supports two working modes: create or reset a previously created system.
+      - Added Info() member to show a internal timer information.
+      - Removed SetFPS() and added SetRate(), you could select two independent rates:
+        + Rendering Frame Rate, it is asynchronous (it doesnt stop your mainloop).
+        + Logic Frame Rate, it is synchronous (it stops your mainloop).
+    . IButton:
+      - GUI system supports multilayers.
+      - Fix a little bug, while you are typing in an input box, other buttons are not sensible
+        to its associated key.
+    . IVideo:
+      - Added SetScale() and SetPosition() members to scale the video and to set it to 
+        a desired position.
+      - Added the posibility to center video stream on screen.
+      - It also works when main screen is on video memory (note that previously, it doesn't).
+      - It supports all effect (FX,scale and position) together.
+    . Mingw32 version is now compiled with GNU GCC 3.4.5 (some bugs with MMX code were fixed).
+    . Vast improvement of cursor update on all graphics interfaces: CTile,CSprite,CFont,IButton.
+    . All graphics interfaces automatically recover lost surfaces in DirectX(hardware mode).
+    . Improved alpha per pixel support on Sprites, Tiles, Images, Cursors, Fonts and Buttons.
+    . Updated to UCL 1.0.3, libogg 1.1.3 and libvorbis 1.1.2 to solve a few bugs and to improve
+      compatibility with oncoming 64bits ports.
+
+    28 December 2005 - 4.70 - Major Update
+    --------------------------------------
+    . New main interface with all global functions and vars unified:
+      - All global vars (screen,mouse_x,etc) have been added to main class.
+      - Init,Quit, etc. have been added to main class.
+        For example: CRM32Pro_Init() has changed to CRM32Pro.Init().
+      - CRC32 have been fully rewritten and integrated on the main class.
+      - Added a true random number generator.
+      - Fully working XML parsing system: read/write/create/delete. 
+        It can edit XML files or XML stored on DPFs.
+    . ILogSystem:
+      - Added new member ShowTime() to print the time when occurred the event.
+    . IStuffDPF:
+      - LoadBlock() return compressed size of loaded block(if it was successfully).
+      - AddFile() and AddData() return compressed size of added block(if it was successfully).
+      - Added new member ->FreeBlock() to free a loaded block.
+    . CSprite does not depend on ITimeSystem.
+    . IButton:
+      - Fixed delay working with pressed keys.
+      - Support a new button: input text (up to 32 characters).
+      - Icon button type removed. Previous Icon will have its right behaviour. Now, Normal=Icon.
+      - Minor fix: hold 'check on' state of check buttons.
+      - Minor fix: allow to enable a check button after a previous disable.
+      - Minor fix: setup of slider button is easier than before (25pixels on each X side).
+    . INetwork:
+      - ReceiveData() return INETWORK_ERROR when any error occured.
+      - Bug fixed: client thread consumed all CPU cycles.
+      - DataNets reception FIFO queue with 32 slots.
+      - Added some security and safe checkpoints. FIFO queue is thread safe.
+      - Added new member to delete received data. Using this method the transmision is very safe.      
+      - Print a few information messages when your are losing datanet (for example: 
+        your code did not handle it).
+      - Ping occurs every second.
+      - ConnectTo() wait a maximum of 10 seconds before to return with error.       
+    . Added the static library. You can choose between shared or static.
+      Use CRM32PRO_STATIC define to enable it. Only works on Win32 platform.
+    . Fully cleaned shared interface of external libraries.
+
+    8 October 2005 - 4.62 - ISoundFX
+    -------------------------------- 
+    . ISoundFX:
+      - Removed support for MP3 (use Vorbis OGG)
+      - Fixed memory leaks on ISoundFX. 
+      - Fixed a minor bug on ->Export() member.      
+      - Fixed a couple of bugs on MikMod library (RWops problem and double free memory).
+      - SDL_mixer/MikMod have a limitation: only one module can be loaded at the same time.
+        ISoundFX does some internal management to avoid this issue.
+      - Support for surround sound output.
+    . Updated to SDL_mixer 1.2.7 CVS to solve audio inicialization problems with MikMod.
+    . Updated to SDL 1.2.9 with a lot of bugs fixed.
+    . Updated to SMPEG 0.4.5 CVS to solve a couple of bugs and MMX optimization.
+    . Fixed previous MPEG video playback issue, now it works with GNU GCC (Win32 & Linux).
+
+    19 September 2005 - 4.61 - IButton & IVideo
+    -------------------------------------------
+    . Fixed several bugs on MinGW32 port.
+    . Fine tuning of blitters for each CPU (thanks all betatesters!)
+    . IButton:
+      - Fix flickering blit when press any button an release it.
+      - Fix flickering blit when press any slider.
+      - Extended button information: all buttons and its properties.
+    . IVideo:
+      - Add new member(SetFunction()) to call it every update frame of MPEG.
+      - Fixed a bug when you play a MPEG without any FXSCREEN effect.
+      - FX effect can be set/change while MPEG is playing.
+      - Fixed a bug related to sound system.
+    . Important note: MPEG video playback only works with Visual C(Win32).
+      We are resolving this problem with SMPEG and GNU GCC.
+
+    31 August 2005 - v4.60 - Major update
+    -------------------------------------  
+    . MMX optimized blitters for Visual C(Win32), Mingw32(Win32) and GNU GCC(Linux).
+      It gives a speed improvement in software mode of 30%-50%.      
+    . Show a message if there are any tile,sprite or font without free its resources.
+    . Added AutoBuild to the library.
+    . Improved library documentation.
+    . All SetAlpha() members mean alpha per surface property.
+    . IPrimitives:
+      - All members are blited using clipping coordinates.
+      - Added perfect&fast collision detecting system.
+      - Added RGB<->HSV conversions members.
+      - Added locking/unlocking surfaces members.
+      - Optimized members with pixels access code by 50%.
+    . CTiles:
+      - Some internal changes to be more stable.
+      - Supports alpha per pixel images (for example, using EditorDPF to load PNG).
+      - Added new member Info().
+    . CSprites:
+      - By default, auto restore background is always disabled.
+      - To set alpha per surface and colorkey you have new members (SetAlphaSurface() 
+        and SetColorKey())
+        instead of set them at time creation.
+      - Some internal changes to be more stable.
+      - Supports alpha per pixel images (for example, using EditorDPF to load PNG).
+      - New members to check collision between CSprites and/or surfaces (using IPrimitives)
+        It allows to use screen coordinates or your own system coordinates. 
+        Also, it supports a debug mode. 
+    . CFonts:
+      - Some internal changes to be more stable.
+      - Supports alpha per pixel images (for example, using EditorDPF to load PNG).
+      - Some members name have been renamed and rewriting:
+        + Added new member Test(SDL_Surface *) and renamed the old Test() to Test(char *fileBMP);
+        + Create(char *fileDPF,char *fontname, char *filebmp) has been renamed to 
+          Save(char *fileDPF,char *fontname)
+        + LoadFromSurface() has been renamed to Create(SDL_Surface *).
+        + Added new member Create(char *fileBMP).
+        + Added new member Info().
+    . IScreenFX:
+      - Added 11 special effects.
+      - All simple effects are done using RenderFX member.
+      - ZoomSurface() has changed to Scale().
+    . IVideo:
+      - Support 11 special effects(from IScreenFX).
+      - Scaled video stream.
+    . ICursor:  
+      - Colorkey auto selection from IPF or the RGB pixel value given by (0,0) surface position.
+      - Supports alpha per pixel images (for example, using EditorDPF to load PNG).
+      - Some internal changes to be more stable.
+      - Added three new members: Info(), AutoRestore() and ChangeType()
+    . IImage:
+      - Supports alpha per pixel images (for example, using EditorDPF to load PNG).
+      - Supports 256 colors images. It isn't converted to display format.
+    . ILogSystem:
+      - Added profile subsystem.
+      - Fixed a bug on Init when log file doesnt exist.
+      - Print build number of the library. 
+    . ITimeSystem:
+      - FPS uses float variable instead of integer variable to be more accurate.   
+      - New member, GetCurrentFPS() to get the fps on last second.
+    . IButton:
+      - Supports alpha per pixel images (for example, using EditorDPF to load PNG).
+    . Separated public and private/internal members/atributes of all interfaces.    
+    . Critical bug fixed on IPrimitives->Scale().       
+    
+    
+    26 June 2005 - v4.52 - CSprite
+    ------------------------------
+    . CSprite: 
+      - Added new members: Pause(),Resume(),IsFinished() (last one only has sense 
+        with OneShot type animations)
+      - Renamed AutoRestoreOff() to AutoRestore(0/1)
+      - SelectAnim() changes current frame on ONE_SHOT animations.
+    . Header modified to fix a redefinition with _WINDOWS
+    . ILogSystem:
+      - Fixed a critical bug on Init.
+      - LOG_CONSOLE show start up information
+    . Changes on header file to show debug information.
+    . MinGW project updated with auto creation of exports library.
+    . Library docs updated.
+    . CRM32Pro_Init() fixes a bug with CPU optimizations (only MSVC)
+    
+    18 April 2005 - v4.51 - A few changes
+    -------------------------------------
+    . INetwork: TCP packed size limited to 8192 bytes.
+    . CSprite: SelectAnim() not longer change current frame.
+    . ILogSystem: added custom string (web page, email and author).
+    . Compatible with mingw/devc free compiler.   
+    . Compiled with new libogg 1.1.    
+
+    28 February 2005 - v4.50 - Major update
+    ----------------------------------------
+    . Ported to Linux/GNU C (X11,DGA and FBCon).
+    . New source tree to port the library to others platforms.
+    . Bugfixes: 
+       - IPF colorkey
+       - selection of P4 optimized functions
+       - missing vars exported in to DLL
+       - minor bug on ILogSystem
+    . Simplified and unified header (english).
+    . Doxygen documentation (english).
+    . Class and functions names have been simplified:
+       - CRM32Pro_Init() encapsule to SDL_Init() and CRM32Pro_Quit() to SDL_Quit()
+       - CRM32Pro_CTileEngine -> CRM32Pro_CTile.
+       - Every members of CRM32Pro_CTile, without "Tile" suffix (ex: DrawTile -> Draw).
+       - Every members of CRM32Pro_IButton, without "Button" suffix.
+       - Every members os CRM32Pro_CFont, without "Font" suffix.
+       - CRM32Pro_CSpriteEngine -> CRM32Pro_CSprite.
+       - Every members of CRM32Pro_CSprite, without "Sprite" suffix.
+    . Unified parameters prototype and members names:
+       - Load functions have the next parameters prototype (origin, data, where).
+       - Save functions have the next parameters prototype (where, data, origin).
+       - Changes on IImage:
+          + Save(SDL_Surface *,char *imgname,char *fileDPF) has changed to 
+            Save(char *fileDPF, char *imgname,SDL_Surface *image)
+          + Load(char *imgname, char *fileDPF, sHeaderIPF *header) has changed to 
+            Load(char *fileDPF,char *imgname, sHeaderIPF *header)
+       - Changes on ICursor:
+	  + Load(char *nameIPF, char *fDPF,char type) has changed to 
+            Load(char *fDPF,char *nameIPF,char type)
+       - Changes on CTile:
+	  + GetTamX(void) has changed to GetSizeX()
+	  + GetTamY(void) has changed to GetSizeY()
+       - Changes on IButton:
+	  + Add(struct IButtonNew *boton,char *fDPF,char *nametile,Uint8 master=0) has changed to
+	    Create(struct IButtonNew *button,char *tilename,Uint8 master,char *fDPF) 
+	  + SetPos(int id,int x,int y) has changed to SetPosition(int id,int x,int y)
+	  + Load(char *nombre_bot, char *fDPF,Uint8 master=0) has changed to 
+            Load(char *fDPF,char *butname,Uint8 master=0)
+	  + LoadHeader(char *nombre_bot, char *fDPF, IButtonNew *info) has changed to 
+            LoadHeader(char *fDPF,char *butname, IButtonNew *info)
+	  + Save(IButtonNew *bot, char *fDPF, char *nombre) has changed to 
+            Save(char *fDPF,char *butname,IButtonNew *but)
+	  + Update(void) has changed to Draw(void) 
+       - Changes on ISoundFX:
+	      + MusicLoad(char *musname,char *fileDPF) has changed to 
+            MusicLoad(char *fileDPF,char *musname) 
+          + MusicImport(char *filemus,char *namemus,char *fileDPF) has changed to 
+            MusicImport(char *fileDPF,char *namemus,char *filemus) 
+          + MusicInfo(char *namemus,char *fileDPF,sAudioType *mustype) has changed to 
+            MusicInfo(char *fileDPF,char *namemus,sAudioType *mustype)  
+          + SoundLoad(char *namesnd,char *fileDPF) has changed to 
+            SoundLoad(char *fileDPF,char *namesnd)
+          + SoundImport(char *filesnd,char *namesnd,char *fileDPF) has changed to 
+            SoundImport(char *fileDPF,char *namesnd,char *sndfile)
+          + SoundInfo(char *namesnd,char *fileDPF,sAudioType *sndtype) has changed to 
+            SoundInfo(char *fileDPF,char *namesnd,sAudioType *sndtype)
+          + Export(char *namesnd,char *fileDPF,char m,char *s) has changed to 
+            Export(char *fileDPF,char *namesnd,char m,char *s)
+    . This version isn't fully compatible with previous one, it's necessary to change the 
+      name of members and parameters(see above changes). It will not have more changes anymore.
+
+
+--> Changes on previous version (in spanish) <--
+
+    20 Enero 2005 - v4.21 - Varios
+    ------------------------------
+    . Optimizacion SSE y MMX dependiendo de la CPU.
+    . Detecta CPU automaticamente (PentiumMMX,Pentium II,Pentium III,
+      Pentium IV y superiores y K6,K7 y K8)    
+    . IButton, corregidos varios bug:
+       - Devuelve correctamente el estado de los Check.
+       - Redibuja botones sin estado "select"
+
+    5 Enero 2005 - v4.20 - Varios
+    ------------------------------
+    . Version publica y de libre distribuccion
+    . Utiliza la nueva SDL 1.2.8.
+    . Optimizaciones varias utilizando instrucciones MMX y SSE.
+    . Nuevo compilador: Microsoft Visual C++ 2003.
+    . DLL Unificada
+    . ILogSystem:
+       - Cambio de informacion de cabecera.
+    . IStuffDPF:
+       - Cambios menores y un par de bugfixes.    
+    
+    25 Marzo 2004 - v4.10 - Varios
+    ------------------------------
+    . ILogSystem:
+       - Añadido sistema de log por niveles,de 0 a 5.
+       - Con nivel LOG_NORMAL o superior, CRM32Pro muestra sus mensajes.       
+       - Ajustes en la libreria del nivel deseado y mejorado el logeo en Sprite y Tile
+         engines.
+       - Unificado de mensajes de error " . [clase->metodo(...)] Info/Error/Warning: 
+         mensaje en ingles."       
+       - IMPORTANTE: NO es compatible con el antiguo sistema, se debe añadir
+                     en Init() el nivel de depuracion y en Msg() el nivel q tiene.
+    
+    . INetwork:
+      - Nuevo interfaz de conexion de red con arquitectura cliente/servidor.
+      
+    . Utiliza la nueva SDL 1.2.7.
+    . Utiliza SDL_net 1.2.5.    
+    . Nueva distribucion de librerias externas.
+    
+
+    15 Febrero 2004 - v4.00a - ISoundFX
+    -----------------------------------
+    . Mejorado el metodo MusicInfo(), ahora muestra los kbps y es instantaneo 
+      (no convierte).
+    . Eliminados memory leaks en MusicInfo()
+    . Existen pequeños leaks en MikMod, que deberian ser corregidos con una revision.
+
+    14 Febrero 2004 - v4.00 - Varios
+    --------------------------------
+    . IStuffDPF:
+       - Gestion completa de bloques sin compresion y posible encriptado. 
+       - Corregido un minorbug muy puñeto que bloqueaba los DPF.
+       - Corregidos multiples minorbugs.
+    
+    . ISoundFX:
+       - Guarda y carga sonidos wav,riff,voc y ogg en ficheros DPF sin compresion.
+       - Guarda y carga musica xm,it,s3m,mod y ogg en ficheros DPF con compresion menos OGG.
+       - Funciones necesarias para utilizar el EditorDPF.
+       - ChannelPlay ha cambiado el nombre a SoundPlay. 
+       - Minorbug en SoundInfo. 
+       - Corregidos multiples memory leaks. Los modulos(MikMod, tiene pequeñas leaks).
+    
+    . CSpriteEngine:
+       - Corregido un bug en el ultimo pixel de los sprites.
+    
+    . Liberia SDL estatica dentro de CRM32Pro.    
+    . Actualizada la jerarquia entre los proyectos.
+    
+    
+    3 Febrero 2004 - v3.80 - Varios
+    -------------------------------
+    . Utiliza nuevas versiones de las librerias. Incluye todos los ficheros de terceros.
+    . Distribucion uniforme e independiente del modo(debug o release).
+    . UCL 1.02.
+    . SDL_Mixer 1.2.5 con soporte para OGG (libvorbis 1.0.1 y libogg 1.0).
+    . SDL 1.2.6.
+    . Pruebas de compatibilidad.    
+    
+    30 Enero 2004 - v3.65 - Varios
+    ------------------------------
+    . IScreenFX: soporte de fader sobre superfices hardware. Se comprueba si es una
+      superficie
+      hardware y se copia a RAM donde se puede trabajar tan solo volcando los resultados.
+    . IButton: la actualizar los botones se comprueba si estamos en modo doublebuffer y si
+      es asi, automaticamente fuerza el redibujado de todos los botones.
+    
+    28 Enero 2004 - v3.61c - Varios
+    -------------------------------
+    . ITimeSystem: miembro SetFPS() que fuerza un determinado numero de fps
+      ralentizando en Update()
+    . IImage: miembro LoadBMP() comprueba que exista el bmp.
+    . ISoundFX: miembro MusicLoad() y SoundLoad() comprueba que exista el fichero.
+    
+    19 Junio 2003 - v3.61b - IButton
+    --------------------------------
+    . Cambios en WhoIsSelected() para permitir averiguar si un boton B_OFF esta 
+      siendo seleccionado.
+    . Nuevo metodo GetState() para averiguar el estado actual de un boton.
+    . Aumentado el numero de botones por capa de 25 a 32.
+    
+    26 Mayo 2003 - v3.61a - CSpriteEngine
+    -------------------------------------
+    . Nuevo miembro SelectFrame
+    . Update acepta un float para controlar la velocidad de animacion, por defecto 1.0
+    
+    27 Marzo 2003 - v3.61 - Varios
+    ------------------------------
+    . Nuevo miembro de IButton para comprobar el boton seleccionado.
+    . Distribuccion en ficheros independientes de las fuentes.
+
+    14 Marzo 2003 - v3.60a - Varios
+    -------------------------------
+    . Fix bug in ISoundFX.
+    . Por defecto, los botones son visibles
+
+    1 Diciembre 2002 - v3.60 - IButton
+    -----------------------------------
+    . Propiedad de los botones Hidden(los oculta)
+    . Los botones tipo ICON pueden ser clonados(el resto no esta testeado).
+	
+    28 Noviembre 2002 - v3.51b - ICursor
+    ------------------------------------
+    . Soporte cursores centrados (CTYPE_CENTER)
+	
+    24 Noviembre 2002 - v3.51a - CSpriteEngine
+    -----------------------------------------
+    . Añadido metodo que desactiva el autorestore.
+    
+    6 Noviembre 2002 - v3.51 - CSpriteEngine
+    ----------------------------------------
+    . Añadidos nuevos metodos para su uso en el Editor DPF.    
+
+    5 Noviembre 2002 - v3.50 - ISoundFX
+    -----------------------------------
+    . Se utiliza SDL_Mixer 1.2.4 y ISoundFX es un wrapper que añade alguna funcionalidad
+      extra. El objetivo es poder cambiar SDL_Mixer 1.2.4 sin afectar a ISoundFX.
+    . Al usar la nueva version(1.2.4) se han corregido multiples bug.
+    . Lee Mp3 con bitrate constantes y variable. No acepta los Mp3Pro.
+    . Se ha cambiado el nombre de los miembros de ISoundFX para una mejor lectura.
+    . Nota: las aplicaciones que utilicen ISoundFX deben cambiar los nombres de las func 
+    
+    4 Noviembre 2002 - v3.10 - CSpriteEngine
+    -----------------------------------------
+    . Los sprites son master o slave, los master contienen la superficie y son creados con
+      Create y Load, los slave no contienen la superficie, dependen de un master y son 
+      creados con New.
+    . Sistema de control de errores, si no existe el sprite no se hace nada, evita errores.  
+    
+    31 Octubre 2002 - v3.00 - CSpriteEngine
+    ---------------------------------------
+    . Implementada la clase CSpriteEngine:
+      -Soporta 3 tipos de animacion: loop,pingpong y oneshot.
+      -Numero indefinido de animaciones con frames independientes.
+      -Definible la duracion de cada frame.
+      -Guardar/cargar a un DPF.
+      -Soporte automatico de doublebuffer.
+    . Cambios en ICursor,CopyBG ahora solo copia el fondo, no dibuja el cursor.
+    . Utiliza SDL 1.2.5a
+    . Nota: cada vez que se llama a Draw() se blitea el frame que corresponda aunque no sea
+	    estrictamente necesarios(no haya cambiado el frame o no haya habido movimiento). Al 
+	    principio se sincronizo con cambios de ese tipo pero en ciertos casos afecta a la
+	    visualizacion del sprite(otro le puede sobreescribir parcial o totalmente). Con lo que
+	    es la aplicacion la encargada de mandar dibujar los sprites cada cierto tiempo y en su orden.
+
+    12 Octubre 2002 - v2.96 - Fixbug en surfaces hardware
+    -----------------------------------------------------
+    . Problema: no hay soporte hardware para alpha blending por lo que la velocidad se reduce 
+	        drasticamente, al margen de que no se crean bien las surfaces hardware al no
+	        estar soportadas. Comprobado en GeForce4,Radeon7500,Matrox G200 sobre Windows 2000.
+	
+    . Solucion: de modo general se han realizado los siguientes cambios:
+	        1) SDL_CreateRGBSurface() utiliza siempre SDL_SWSURFACE
+	        2) Si el valor alpha almacenado es 255, lo desactivamos antes de SDL_DisplayFormat()
+	
+    . Importante: si se crean una superficie con alpha desactivado en videoram y se activa el alpha,
+	          el rendimiento se reducira drasticamente. Es aconsejable reconvertir la superficie.
+	          En los modulos donde implicitamente el uso del alpha es normal se ha realizado
+	          de forma automatica: CTileEngine y CSpriteEngine. 
+	 			       IImage: automaticamente no lo soporta pero si se puede cambiar.
+				       ICursor: no soporta metodos de colorkey ni alpha blending.
+				       CFont: siempre se crea en RAM porque si utiliza alpha blending.	    
+	
+    28 Septiembre 2002 - v2.95 - ITimeSystem y varios
+    -------------------------------------------------
+    . Nueva interfaz para el control de tiempo.
+    . Implicitamente todas las superficies son convertidas al mismo tipo screen
+      para asegurar la mayor velocidad de ejecucion.
+    . CFont,IButton y IScreenFX solo utilizan superficies software.
+    . Nueva funcion CRM32Pro_InfoGFX() que muestra informacion del sistema hardware grafico.
+    . BUG DETECTADO: No se crean correctamente las superficies hardware.	
+
+    22 Agosto 2002 - v2.94 - IScreenFX
+    ----------------------------------
+    . Añadida funcion de Zoom.
+
+    24 Julio 2002 - v2.93a - IStuffDPF
+    ----------------------------------	
+    . IStuffDPF->AddData: se ha añadido un define(COMPRESS_LEVEL), antes estaba fijo a 10
+      lo cual era muy lento, ahora esta definido en un 6 que acelera muchisimo y comprime bien.
+
+    28 Junio 2002 - v2.93 - CTileEngine
+    -----------------------------------
+    . Soporte para tileset en CTileEngine.	
+
+    19 Junio 2002 - v2.92 - ICursor
+    -------------------------------
+    . Ampliada y mejorada la Interfaz de control de cursores
+    . Nuevo compilador: Microsoft Visual C++ 7.0
+
+    1 Junio 2002 - v2.91a - Varios
+    -----------------------------
+    . Añadido nuevo tipo de boton a IButton: Check
+
+    25 Mayo 2002 - v2.91 - Varios
+    -----------------------------
+    . La implementacion de todos los metodos esta en el CPP no en el header
+    . Corregido un bug en GetFragment() de StuffDPF
+    . Imprescindible inicializar libreria CRM32Pro
+    . Se ha añadido a StuffDPF metodos para compactar los DPF
+    . La fecha de modificacion de los DPF se actualiza automaticamente
+    . Soporte para el Editor DPF (comprueba que exista screen)
+    . Añadido a IButton miembros Load/Save/Delete
+    . Soporte en IButton para Slider y Progressbar
+    . Las cabeceras de IStuff tienen bytes de reserva para 
+      asegurar la compatibilidad si se producen cambios futuros.
+
+    5 Abril 2002 - v2.8 - IImage y varios
+    ---------------------------------------
+    . Añadida la interfaz Image con soporte de carga DPF.
+    . Modificadas las cabeceras de los DPF	
+
+    20 Octubre 2001 - v2.75 - StuffDPF
+    ----------------------------------
+    . Creada nueva interfaz StuffDPF que engloba
+      todas las funciones de DPF.
+    . Se han creado 5 nuevas funciones DPF:
+      -Eliminar un bloque(elimina logicamente los bloques)
+      -Encontrar el 1º bloque
+      -Encontrar el siguiente bloque
+      -Buscar un bloque.
+      -Compactar DPF(elimina fisicamente los bloques)
+     . Antes de añadir un bloque comprueba que no exista previamente.	
+
+    3 Septiembre 2001 - v2.72 - IPrimitives
+    ---------------------------------------
+    . Añadidas rutinas para dibujar lineas y rectangulos en IPrimitives.
+
+    1 Septiembre 2001 - v2.71 - CFont
+    ------------------------------------------
+    . Añadida a CFont una funcion que acepta imagenes
+      y las convierte en fuentes. (CFont::Create)
+
+    31 Agosto 2001 - v2.70 - ICursor y IPlayMPEG 
+    --------------------------------------------
+    . Implementada la interfaz PlayMPEG para reproducir MPEG-1.
+    . Implementada la interfaz Cursor.
+    . CTileEngine trabaja con ICursor.
+   
+    7 Agosto 2001 - v2.60 - Multiples correcciones
+    -----------------------------------------------
+    . Leve cambio a CFont de modo que una vez cargada una fuente no depende
+      de la superficie externa.
+    . Se ha añadido a CFont un miembro para controlar el color Alpha.
+    . Se ha corregido un bug cuando se controlaban superficies hardware sobre
+      otra en hardware. El problema ha sido corregido en CTileEngine y CFont en
+      las funciones de Load() respectivas. CFont utiliza superficies software.
+    . Se ha corregido un problema en IPrimitives, ahora se bloquean las superficies.
+   
+    6 Agosto 2001 - v2.50 - MPEG y ISoundFX
+    -------------------------------------------------------
+    . Incorporado a la libreria la reproduccion de MPEG-I y MP3
+    . Interfaz ISoundFX que utiliza un mezclador para reproducir
+      WAV,MOD,XM,IT,S3M y MP3. 8 canales de sonido y uno de musica.
+    . Nos encontramos un error al reproducir MP3(no se puede compilar
+      SMPEG 0.4.3 ni 0.4.4 con Visual C++ 6 SP2) y utilice la version
+      compilada SMPEG.LIB y SMPEG.DLL en lugar de MPEG pero tras indagar
+      un poco y cambiar un par de #defines parece que funciona, el fallo
+      pudo ser debido a un error permanente del sistema y al reiniciar..
+      funciono!
+    . Corregido un minorbug en DPF v2.1 (no detectaba el final del fichero)
+    . Corregido un majorbug en IButton.
+    . Se han ajustado los fades usando Alpha para que lo hagan completo.
+
+    31 Julio 2001 - v2.00 - CFont y multiples correcciones
+    -------------------------------------------------------
+    . Las clases comienzan por C y las interfaces por I
+    . Implementado la clase CFont para el control de fuentes
+    . CTileEngine puede grabar/cargar bloques que no sean TILE
+    . Depuracion de errores e investigacion sobre problemas con superficies.
+    . Se utiliza SDL 1.2.2 y al salir de CRM32Pro vuelca(si procede) informacion
+      sobre la version de la libreria SDL.
+   
+    23 Julio 2001 - v1.95 - Correcciones multiples
+    -------------------------------------------------
+    . El tipo de los DPF se ha ampliado a 4 caracteres
+    . Reemplazado algoritmo LZO por UCL(NRV2B).  
+    . Corregido un bug al cargar Tiles en superficies hardware   
+    . Nueva funcion DumpSurface añadida a ILogSystem,vuelca toda 
+      la informacion de una superficie. 
+	
+    17 Julio 2001 - v1.90 - Soporte compresion en DPF
+    -------------------------------------------------
+     Se ha utilizado la libreria LZO para comprimir los
+     bloques en los archivos DPF automaticamente y de 
+     modo completamente transparente.
+	
+    16 Julio 2001 - v1.85 - Organizacion y documentacion
+    ----------------------------------------------------
+     Debido al tamaño que esta tomando la libreria se van
+     a aplicar unos criterios de normalizacion asi que la
+     documentacion de las funciones. Tambien se han añadido
+     dos funciones para iniciar y cerrar la libreria.
+     Se ha encapsulado en la clase ILogSystem el sistema de
+     loggeo y el de tracking memory.	
+  
+    13 Julio 2001 - v1.80 - Fundidos usando canal Alpha
+    ---------------------------------------------------
+     Se han creado fader a negro, a blanco y a otra imagen
+     utilizando el bliter y el canal alpha, es bastante mas
+     rapido que las tradicionales y pueden ser aplicadas
+     en efectos a tiempo real. Si se utilizan superficies
+     hardware, la velocidad es tan alta que en proximas 
+     versiones se diseñara un sistema para controlar la velocidad.
+	
+    12 Julio 2001 - v1.75 - Sistema TrackingMemory
+    ----------------------------------------------
+     Se ha añadido un sistema de siguimiento de new y delete
+     que vuelca a un fichero toda la informacion, de este modo
+     nos aseguramos de que no se creen lagunas olvidadas en memoria.
+     Se activa automaticamente al compilar en modo Debug y estar
+     TRACKINGMEMORY a true. Modulo 2: Logging v2.0.
+
+
+    -v1.70-> 10 Julio 2001, Optimizacion IScreenFX y IPrimitives
+    -v1.60-> 9 Julio 2001, Modulo IScreenFX v1.0 y IPrimitives v1.0
+    -v1.50-> 8 Julio 2001, Toda la libreria trabaja a 32bit en lugar de 16bit.
+    -v1.42-> 4 Julio 2001, Modulo IButton v1.0
+    -v1.40-> 2 Julio 2001, Modulo IButton v0.5
+    -v1.30-> 23 Junio 2001, Modulo TileEngine v1.0
+    -v1.20-> 21 Junio 2001, Modulo Data Package Format (DPF) v1.0.
+    -v1.10-> 10 Junio 2001, Modulo CRC32 y Logging.
+    -v1.00-> 7 Junio 2001, Creacción de la libreria.

@@ -1,0 +1,24 @@
+How to install CRM32Pro SDK
+---------------------------------
+
+- Open in a web browser docs/index.html (or the .chm file in a Windows platform)
+- In the Main Page you can find the steps for installing the SDK on the supported platforms:
+
+(...)
+
+3. Installation, setup and details on Windows platforms using Visual Studio (6, 2003, 2005, 2008 or 2010) library version
+
+4. Installation, setup and details on Windows platforms using GNU GCC/G++ 3.4.5 library version
+
+5. Installation, setup and details on Linux platforms using GNU GCC/G++ 4.1.x library version
+
+6. Installation, setup and details on MacOS X x86 platform using GNU GCC/G++ 4.0.x library version 
+
+(...)
+
+- If you find any issue or have any comment, please contact us via email or forum
+
+    
+   Roberto Prieto
+   megastorm@ono.com
+   http://www.megastormsystems.com
